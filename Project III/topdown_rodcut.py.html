@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>topdown_rodcut.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(98,151,85); font-style: italic; }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(128,128,128); }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+topdown_rodcut.py</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">''' 
+Purpose : Implement a Top Down approach to the Rod Cutting Algorithm 
+Author  : Hameed Abdul 
+Date    : 4/1/2018 
+'''</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">numpy </span><span class="s2">as </span><span class="s1">np 
+ 
+</span><span class="s3"># Numpy array to store pipe value by length (0 - 10)</span><span class="s1"> 
+</span><span class="s3"># Numpy array (0 through 10) just for output</span><span class="s1"> 
+prices = np.array([</span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">5</span><span class="s2">, </span><span class="s4">8</span><span class="s2">, </span><span class="s4">9</span><span class="s2">, </span><span class="s4">10</span><span class="s2">, </span><span class="s4">17</span><span class="s2">, </span><span class="s4">17</span><span class="s2">, </span><span class="s4">20</span><span class="s2">, </span><span class="s4">24</span><span class="s2">, </span><span class="s4">20</span><span class="s1">]) 
+rod_lengths = np.arange(</span><span class="s4">11</span><span class="s1">) 
+ 
+</span><span class="s2">def </span><span class="s1">memoized_topdown_rodcut(prices</span><span class="s2">, </span><span class="s1">curr_rod_length): 
+    </span><span class="s0">&quot;&quot;&quot; 
+    Initializes array of 11 elements ( 0 to n+1). Elements 1 through n+1 = -9999 
+    :param prices: array of values correlated to each rod's length 
+    :param curr_rod_length: current rod length 
+    :return: Calls the coupled function and returns correct value for specifed index 
+    &quot;&quot;&quot;</span><span class="s1"> 
+    </span><span class="s3"># Array to store max profit for each length (0 to n+1)</span><span class="s1"> 
+    </span><span class="s3"># Set the min value for elements 1 through n+1</span><span class="s1"> 
+    rodcut_profit = np.repeat(-</span><span class="s4">999</span><span class="s2">, </span><span class="s1">curr_rod_length + </span><span class="s4">1</span><span class="s1">) 
+    rodcut_profit[</span><span class="s4">0</span><span class="s1">] = </span><span class="s4">0</span><span class="s1"> 
+ 
+    </span><span class="s3"># Updates each index of rodcut_profit accordingly</span><span class="s1"> 
+    </span><span class="s3"># Return result in array format</span><span class="s1"> 
+    _memoized_topdown_rodcut(prices</span><span class="s2">, </span><span class="s1">curr_rod_length</span><span class="s2">, </span><span class="s1">rodcut_profit) 
+    </span><span class="s2">return </span><span class="s1">rodcut_profit  
+ 
+</span><span class="s2">def </span><span class="s1">_memoized_topdown_rodcut(prices</span><span class="s2">, </span><span class="s1">curr_rod_length</span><span class="s2">, </span><span class="s1">rodcut_profit): 
+    </span><span class="s0">&quot;&quot;&quot; 
+    :param prices: array of values correlated to each rod's length 
+    :param curr_rod_length:  current rod length 
+    :param rodcut_profit: 
+    :return: 
+    &quot;&quot;&quot;</span><span class="s1"> 
+    </span><span class="s2">if </span><span class="s1">curr_rod_length != </span><span class="s4">0</span><span class="s1">: 
+        </span><span class="s3"># Initialize curr_max to a negative int</span><span class="s1"> 
+        curr_max = -</span><span class="s4">999</span><span class="s1"> 
+        </span><span class="s3"># Loop from 1 to 10</span><span class="s1"> 
+        </span><span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s2">, </span><span class="s1">curr_rod_length + </span><span class="s4">1</span><span class="s1">): 
+            </span><span class="s3"># Add the current index's price to each unique permutation of the current length possible</span><span class="s1"> 
+            </span><span class="s3"># Select the Maximum value and return</span><span class="s1"> 
+            val_to_check = prices[i] + _memoized_topdown_rodcut(prices</span><span class="s2">, </span><span class="s1">curr_rod_length - i</span><span class="s2">, </span><span class="s1">rodcut_profit) 
+            curr_max = max(curr_max</span><span class="s2">, </span><span class="s1">val_to_check) 
+        rodcut_profit[i] = curr_max 
+        </span><span class="s3"># So just return the current rod's max profit</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">curr_max 
+    </span><span class="s3"># Else return 0</span><span class="s1"> 
+    </span><span class="s2">return </span><span class="s4">0</span><span class="s1"> 
+ 
+</span><span class="s3"># Run roddcutting and Store results</span><span class="s1"> 
+optimal_profit = memoized_topdown_rodcut(prices</span><span class="s2">, </span><span class="s4">10</span><span class="s1">) 
+ 
+</span><span class="s3"># Print results and relevant info</span><span class="s1"> 
+print(</span><span class="s5">'Rod Length:</span><span class="s2">\t\t\t</span><span class="s5">'</span><span class="s2">, </span><span class="s1">rod_lengths) 
+print(</span><span class="s5">'Prices:</span><span class="s2">\t\t\t\t</span><span class="s5">'</span><span class="s2">, </span><span class="s1">prices) 
+print(</span><span class="s5">&quot;===================================================================</span><span class="s2">\n</span><span class="s5">Max Profit: </span><span class="s2">\t\t\t</span><span class="s5">&quot;</span><span class="s2">, </span><span class="s1">optimal_profit) 
+</span></pre>
+</body>
+</html>

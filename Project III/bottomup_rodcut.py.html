@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>bottomup_rodcut.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(98,151,85); font-style: italic; }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(204,120,50); }
+.s3 { color: rgb(128,128,128); }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+bottomup_rodcut.py</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">''' 
+Purpose : Implement a Bottom Up approach to the Rod Cutting Algorithm 
+Author  : Hameed Abdul  
+Date    : 4/1/2018 
+'''</span><span class="s1"> 
+ 
+</span><span class="s2">import </span><span class="s1">numpy </span><span class="s2">as </span><span class="s1">np 
+ 
+</span><span class="s3"># Numpy array to store pipe value by length (0 - 10)</span><span class="s1"> 
+prices = np.array([</span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">5</span><span class="s2">, </span><span class="s4">8</span><span class="s2">, </span><span class="s4">9</span><span class="s2">, </span><span class="s4">10</span><span class="s2">, </span><span class="s4">17</span><span class="s2">, </span><span class="s4">17</span><span class="s2">, </span><span class="s4">20</span><span class="s2">, </span><span class="s4">24</span><span class="s2">, </span><span class="s4">20</span><span class="s1">]) 
+ 
+</span><span class="s3"># Use to find optimal rod cutting solution, using a Bottom Up Approach</span><span class="s1"> 
+</span><span class="s2">def </span><span class="s1">bottomup_rodcut(prices</span><span class="s2">, </span><span class="s1">n): 
+    </span><span class="s0">&quot;&quot;&quot; 
+    Given the correlated prices and length for a rod, this returns the optimal rod cutting length 
+    to maximize profit. This is done effeciently by storing the previous results to avoid copious amounts of recalculations 
+    :param prices: Prices for each length 
+    :param n: Length to stop at 
+    :return: The optimal rod cutting length for each given rod 
+    &quot;&quot;&quot;</span><span class="s1"> 
+ 
+    </span><span class="s3"># A Numpy array from zero to N + 1</span><span class="s1"> 
+    rod_length = np.arange(n + </span><span class="s4">1</span><span class="s1">) 
+    rod_length[</span><span class="s4">0</span><span class="s1">] = </span><span class="s4">0</span><span class="s1"> 
+    print(</span><span class="s5">'Length: </span><span class="s2">\t\t\t</span><span class="s5">'</span><span class="s2">, </span><span class="s1">rod_length) 
+ 
+    </span><span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s2">, </span><span class="s1">n + </span><span class="s4">1</span><span class="s1">): 
+        q = -</span><span class="s4">99999</span><span class="s1"> 
+        </span><span class="s2">for </span><span class="s1">j </span><span class="s2">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s2">, </span><span class="s1">i + </span><span class="s4">1</span><span class="s1">): 
+            </span><span class="s3"># Find the max between given price or prev sublength</span><span class="s1"> 
+            val = prices[j] + rod_length[i - j] 
+            q = max(q</span><span class="s2">, </span><span class="s1">val) 
+        </span><span class="s3"># Set the max value and move on</span><span class="s1"> 
+        rod_length[i] = q 
+    </span><span class="s2">return </span><span class="s1">rod_length 
+ 
+test = bottomup_rodcut(prices</span><span class="s2">, </span><span class="s4">10</span><span class="s1">) 
+print(</span><span class="s5">'Prices:</span><span class="s2">\t\t\t\t</span><span class="s5">'</span><span class="s2">, </span><span class="s1">prices) 
+print(</span><span class="s5">&quot;=========================================================</span><span class="s2">\n</span><span class="s5">Max Profit: </span><span class="s2">\t\t</span><span class="s5">&quot;</span><span class="s2">, </span><span class="s1">test) 
+</span></pre>
+</body>
+</html>
