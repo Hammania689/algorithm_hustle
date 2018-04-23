@@ -41,7 +41,7 @@ graph_matrix = np.array([ [0,1,0,0], [1, 0, 1, 1], [0, 1, 0, 1], [0, 1, 1, 0]])
 v = len(graph_matrix)
 
 # Numpy Arrays to track distance from source and predessecer of node that led to arrival
-dist = np.zeros(v)
+dist = np.zeros(v, dtype=int)
 pred = np.zeros(v)
 
 # Numpy Boolean Array to track which nodes have been visited
@@ -86,7 +86,7 @@ def bfs(graph_matrix, source):
 
         # Print status over time
         # Deque the current vertex
-        print('Quey:', quey.items)
+        #print('Quey:', quey.items)
         quey.deque()
 
 def test_bst():
